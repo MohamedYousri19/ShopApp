@@ -38,9 +38,9 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
   Widget build(BuildContext context) {
     var boardController = PageController() ;
     List<BoardingModel> boarding = [
-      BoardingModel(title: 'On Boarding Title 1', body: 'On Boarding Body 1', image: 'assets/images/onboard1.jpg'),
-      BoardingModel(title: 'On Boarding Title 2', body: 'On Boarding Body 2', image: 'assets/images/onboard3.jpeg'),
-      BoardingModel(title: 'On Boarding Title 3', body: 'On Boarding Body 3', image: 'assets/images/onboard4.png'),
+      BoardingModel(title: 'Welcome to Salla App..!', body: 'Discover the best deals today!', image: 'assets/images/onboard1.jpg'),
+      BoardingModel(title: 'Shop the latest trends.', body: 'Up to 50% off!', image: 'assets/images/onboard3.jpeg'),
+      BoardingModel(title: 'Shop by Brand', body: 'Buy One, Get One Free', image: 'assets/images/onboard4.png'),
     ];
     return Scaffold(
       appBar: AppBar(

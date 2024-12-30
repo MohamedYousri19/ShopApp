@@ -16,13 +16,13 @@ class FavoritesScreen extends StatelessWidget {
     return BlocConsumer<ShopCubit,ShopStates>(
       builder: (BuildContext context, state) {
         return ConditionalBuilder(
-          condition:  ShopCubit.get(context).favoritesModel != null && ShopCubit.get(context).favorites[ShopCubit.get(context).favoritesModel!.data!.data?[0].product!.id] != null ,
+          condition:  ShopCubit.get(context).favoritesModel != null  && ShopCubit.get(context).favoritesModel!.data!.data!.isNotEmpty,
           builder: (context) => ListView.separated(
               itemBuilder: (context,index) => favoritesItem(ShopCubit.get(context).favoritesModel!.data!.data![index],context),
               separatorBuilder: (context , index) =>line(),
               itemCount: ShopCubit.get(context).favoritesModel!.data!.data!.length
           ),
-          fallback: (context)  => const Center(child:  CircularProgressIndicator()),
+          fallback: (context)  => ShopCubit.get(context).favoritesModel == null ? Center(child: CircularProgressIndicator()) : ShopCubit.get(context).favoritesModel!.data!.data!.isNotEmpty ? Container() : Center(child: Image(image: AssetImage('assets/images/empty.png') , height: 300,))   ,
         ) ;
       },
       listener: (BuildContext context, Object? state) {},
@@ -46,11 +46,18 @@ class FavoritesScreen extends StatelessWidget {
                 Stack(
                   alignment: AlignmentDirectional.bottomStart,
                   children: [
-                     Image(
-                      image: NetworkImage('${model.product!.image}'),
-                      width:120.0,
-                      height: 120.0,
-                    ),
+                     Container(
+                       clipBehavior: Clip.antiAlias,
+                       decoration: BoxDecoration(
+                         borderRadius: BorderRadius.circular(10.0)
+                       ),
+                       child: Image(
+                        image: NetworkImage('${model.product!.image}'),
+                        width:120.0,
+                        height: 120.0,
+                         fit: BoxFit.cover,
+                       ),
+                     ),
                     if(model.product!.discount != 0)
                       Container(
                         decoration: const BoxDecoration(

@@ -9,6 +9,7 @@ Widget default_TextField({
   IconData? prefixIcon ,
   IconButton? suffixIconIcon ,
   Function? submit ,
+  Function? changed ,
   Function? pressedIcon ,
   required bool isShow ,
   required TextInputType type,
@@ -16,6 +17,9 @@ Widget default_TextField({
   validator: (s){
     return valdate(s);
     },
+  onChanged: (value){
+    changed!() ;
+  },
   onFieldSubmitted: (value){
     submit!(value);
   },

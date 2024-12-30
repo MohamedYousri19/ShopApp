@@ -14,6 +14,7 @@ class SearchCubit extends Cubit<searchStates> {
   static SearchCubit get(context) => BlocProvider.of(context) ;
   SearchModel? model ;
   Map<int?,bool?> favorites = {} ;
+
   void search(String text){
     emit(SearchLoadingState()) ;
     DioHelper.postData(url: SEARCH, token: token ,data: {

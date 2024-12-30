@@ -46,9 +46,9 @@ class MyApp extends StatelessWidget {
         builder: (BuildContext context, state) {
           return MaterialApp(
             debugShowCheckedModeBanner: false,
-            theme: lightTheme,
-            darkTheme: darkTheme,
-            themeMode: ThemeMode.light,
+            theme:lightTheme,
+            darkTheme: darkTheme ,
+            themeMode: ShopCubit.get(context).isDark ? ThemeMode.light : ThemeMode.dark  ,
             home: startWidget ,
           );
         },

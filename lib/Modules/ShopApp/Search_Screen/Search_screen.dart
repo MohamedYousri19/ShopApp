@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shop_app/LayOut/ShopLayout/cubit/cubit.dart';
 import '../../../Models/ShopApp/SearchModel.dart';
 import '../../../Shared/styles/colors.dart';
 import '../../../Shared/Components/Components.dart';
@@ -26,27 +27,35 @@ class Search_Screen1 extends StatelessWidget {
                 key: formKey,
                 child: Column(
                   children: [
-                    default_TextField(
-                        labelText: 'Search.!!',
-                        titleController: textController,
-                        valdate: (String value){
-                          if(value.isEmpty){
-                            return 'Search Must Not be Empty' ;
-                          }
-                        },
-                        prefixIcon: CupertinoIcons.search,
-                        isShow: false,
-                        type: TextInputType.text,
+                    TextFormField(
+                      decoration: InputDecoration(
+                        label: Text('Search'),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(13.0),
+                          borderSide: BorderSide(color: Colors.grey),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(13.0),
+                          borderSide: BorderSide(
+                            color: Colors.grey,
+                            width: 1.0,
+                          ),
+                        ),
+                        prefixIcon: Icon(Icons.search),
+                      ),
+                      onChanged: (value){
+                        SearchCubit.get(context).search(value) ;
+                      },
                     ),
                     const SizedBox(height: 20.0,),
-                    defaulButton(
-                        function: (){
-                          if(formKey.currentState!.validate()){
-                            SearchCubit.get(context).search(textController.text) ;
-                          }
-                        },
-                        name: 'Search'
-                    ),
+                    // defaulButton(
+                    //     function: (){
+                    //       if(formKey.currentState!.validate()){
+                    //         SearchCubit.get(context).search(textController.text) ;
+                    //       }
+                    //     },
+                    //     name: 'Search'
+                    // ),
                     SizedBox(height: 10,),
                     if(state is SearchLoadingState)
                     LinearProgressIndicator(),
@@ -88,24 +97,31 @@ class Search_Screen1 extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Stack(
-              alignment: AlignmentDirectional.bottomStart,
-              children: [
-                Image(
-                  image: NetworkImage('${model.image}'),
-                  width:120.0,
-                  height: 120.0,
-                ),
-                if(model.discount != null)
-                  Container(
-                    decoration: const BoxDecoration(
-                      borderRadius: BorderRadiusDirectional.only(topStart: Radius.circular(5.0) , bottomEnd: Radius.circular(5.0)),
-                      color: Colors.red,
-                    ),
-                    padding: const EdgeInsetsDirectional.symmetric(horizontal: 5.0 ),
-                    child: const Text('Discount' , style: TextStyle(fontSize: 12.0 , color: Colors.white),),
-                  )
-              ],
+            Container(
+              child: Stack(
+                alignment: AlignmentDirectional.bottomStart,
+                children: [
+                  Image(
+                    image: NetworkImage('${model.image}'),
+                    width:120.0,
+                    height: 120.0,
+                    fit: BoxFit.cover,
+                  ),
+                  if(model.discount != null)
+                    Container(
+                      decoration: const BoxDecoration(
+                        borderRadius: BorderRadiusDirectional.only(topStart: Radius.circular(5.0) , bottomEnd: Radius.circular(5.0)),
+                        color: Colors.red,
+                      ),
+                      padding: const EdgeInsetsDirectional.symmetric(horizontal: 5.0 ),
+                      child: const Text('Discount' , style: TextStyle(fontSize: 12.0 , color: Colors.white),),
+                    )
+                ],
+              ),
+              clipBehavior: Clip.antiAlias,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(25.0)
+              ),
             ),
           ],
         ),
@@ -135,7 +151,7 @@ class Search_Screen1 extends StatelessWidget {
                   icon:  Icon(
                     Icons.favorite,
                     size: 20.0,
-                    color: SearchCubit.get(context).favorites[model.id]!  ? Colors.red : Colors.grey   ,
+                    color: ShopCubit.get(context).favorites[model.id]!  ? Colors.red : Colors.grey   ,
                   )
               )
             ],
